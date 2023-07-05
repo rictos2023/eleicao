@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Urna Eletrônica</title>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 200px;
+    }
+
+    .visor {
+      width: 200px;
+      height: 50px;
+      border: 1px solid black;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+    }
+
+    .botoes-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .botao {
+      width: 60px;
+      height: 60px;
+      font-size: 20px;
+      margin: 5px;
+    }
+
+    .confirmar {
+      background-color: green;
+      color: white;
+    }
+
+    .branco {
+      background-color: gray;
+      color: white;
+    }
+
+    .corrigir {
+      background-color: red;
+      color: white;
+    }
+
+    .resultado {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="visor" id="visor"></div>
+    <div class="botoes-container">
+      <button class="botao" onclick="adicionarNumero(1)">1</button>
+      <button class="botao" onclick="adicionarNumero(2)">2</button>
+      <button class="botao" onclick="adicionarNumero(3)">3</button>
+    </div>
+    <div class="botoes-container">
+      <button class="botao" onclick="adicionarNumero(4)">4</button>
+      <button class="botao" onclick="adicionarNumero(5)">5</button>
+      <button class="botao" onclick="adicionarNumero(6)">6</button>
+    </div>
+    <div class="botoes-container">
+      <button class="botao" onclick="adicionarNumero(7)">7</button>
+      <button class="botao" onclick="adicionarNumero(8)">8</button>
+      <button class="botao" onclick="adicionarNumero(9)">9</button>
+    </div>
+    <div class="botoes-container">
+      <button class="botao" onclick="adicionarNumero(0)">0</button>
+    </div>
+    <div class="botoes-container">
+      <button class="botao branco" onclick="votarBranco()">Branco</button>
+      <button class="botao corrigir" onclick="corrigir()">Corrigir</button>
+      <button class="botao confirmar" onclick="confirmar()">Confirmar</button>
+    </div>
+    <div class="resultado" id="resultado"></div>
+    <button onclick="mostrarApuracao()">Mostrar Apuração</button>
+  </div>
+
+  <script>
+    let cargo = 'secretario';
+    let numeroVotado = '';
+    let visor = document.getElementById('visor');
+    let resultado = document.getElementById('resultado');
+
+    let votosYann = 0;
+    let votosRicharlyson = 0;
+    let votosDiogo = 0;
+    let votosLuis = 0;
+    let votosBranco = 0;
+    let votosAnulados = 0;
+
+    function adicionarNumero(numero) {
+      numeroVotado += numero;
+      atualizarVisor();
+    }
+
+    function confirmar() {
+      if (numeroVotado !== '') {
+        if (cargo === 'secretario') {
+          if (numeroVotado === '13') {
+            votosYann++;
+          } else if (numeroVotado === '22') {
+            votosRicharlyson++;
+          } else if (numeroVotado === '30') {
+            votosDiogo++;
+          } else if (numeroVotado === '15') {
+            votosLuis++;
+          } else {
+            votosAnulados++;
+          }
+          cargo = 'capitao';
+        } else {
+          if (numeroVotado === '13') {
+            votosYann++;
+          } else if (numeroVotado === '22') {
+            votosRicharlyson++;
+          } else if (numeroVotado === '30') {
+            votosDiogo++;
+          } else if (numeroVotado === '15') {
+            votosLuis++;
+          } else {
+            votosAnulados++;
+          }
+          cargo = 'secretario';
+        }
+        numeroVotado = '';
+        atualizarVisor();
+        if (cargo === 'secretario') {
+          setTimeout(reiniciarVotos, 3000);
+        }
+      }
+    }
+
+    function votarBranco() {
+      if (cargo === 'capitao') {
+        votosBranco++;
+      }
+      numeroVotado = '';
+      cargo = 'secretario';
+      atualizarVisor();
+    }
+
+    function corrigir() {
+      numeroVotado = '';
+      atualizarVisor();
+    }
+
+    function atualizarVisor() {
+      let nomeCandidato = '';
+
+      if (cargo === 'secretario') {
+        if (numeroVotado === '13') {
+          nomeCandidato = 'Yann Lazaro';
+        } else if (numeroVotado === '22') {
+          nomeCandidato = 'Richarlyson Santos';
+        } else if (numeroVotado === '30') {
+          nomeCandidato = 'Diogo Pereira';
+        } else if (numeroVotado === '15') {
+          nomeCandidato = 'Luis Gabriel';
+        }
+      } else {
+        if (numeroVotado === '13') {
+          nomeCandidato = 'Yann Lazaro';
+        } else if (numeroVotado === '22') {
+          nomeCandidato = 'Richarlyson Santos';
+        } else if (numeroVotado === '30') {
+          nomeCandidato = 'Diogo Pereira';
+        } else if (numeroVotado === '15') {
+          nomeCandidato = 'Luis Gabriel';
+        }
+      }
+
+      visor.textContent = `${cargo.toUpperCase()}: ${numeroVotado} - ${nomeCandidato}`;
+
+      if (numeroVotado === 'FIM') {
+        exibirResultado();
+      }
+    }
+
+    function exibirResultado() {
+      resultado.innerHTML = `
+        <p>Total de votos para Yann Lazaro: ${votosYann}</p>
+        <p>Total de votos para Richarlyson Santos: ${votosRicharlyson}</p>
+        <p>Total de votos para Diogo Pereira: ${votosDiogo}</p>
+        <p>Total de votos para Luis Gabriel: ${votosLuis}</p>
+        <p>Total de votos em branco: ${votosBranco}</p>
+        <p>Total de votos anulados: ${votosAnulados}</p>
+      `;
+    }
+
+    function reiniciarVotos() {
+      cargo = 'secretario';
+      numeroVotado = '';
+      votosYann = 0;
+      votosRicharlyson = 0;
+      votosDiogo = 0;
+      votosLuis = 0;
+      votosBranco = 0;
+      votosAnulados = 0;
+      atualizarVisor();
+    }
+
+    function mostrarApuracao() {
+      exibirResultado();
+    }
+  </script>
+</body>
+</html>
