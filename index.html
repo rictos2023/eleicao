@@ -3,11 +3,22 @@
 <head>
   <title>Urna Eletrônica</title>
   <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f2f2f2;
+    }
+
     .container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 200px;
+      width: 400px;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     }
 
     .visor {
@@ -54,6 +65,30 @@
       font-weight: bold;
       text-align: center;
     }
+
+    .fotos-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .foto-candidato {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin: 10px;
+    }
+
+    .apuracao-container {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .som-voto {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -76,32 +111,35 @@
     </div>
     <div class="botoes-container">
       <button class="botao" onclick="adicionarNumero(0)">0</button>
-    </div>
-    <div class="botoes-container">
       <button class="botao branco" onclick="votarBranco()">Branco</button>
       <button class="botao corrigir" onclick="corrigir()">Corrigir</button>
-      <button class="botao confirmar" onclick="confirmar()">Confirmar</button>
     </div>
-    <div class="resultado" id="resultado"></div>
-    <button onclick="mostrarApuracao()">Mostrar Apuração</button>
+    <button class="botao confirmar" onclick="confirmar()">Confirmar</button>
+    <div class="fotos-container" id="fotos-container"></div>
+    <div class="apuracao-container" id="apuracao-container">
+      <h3>Apuração</h3>
+      <div id="apuracao-secretario"></div>
+      <div id="apuracao-capitao"></div>
+    </div>
+    <audio id="som-voto" src="som-voto.mp3" preload="auto"></audio>
+    <audio id="som-confirmar" src="som-confirmar.mp3" preload="auto"></audio>
   </div>
 
   <script>
     let cargo = 'secretario';
     let numeroVotado = '';
-    let visor = document.getElementById('visor');
-    let resultado = document.getElementById('resultado');
-
     let votosYann = 0;
     let votosRicharlyson = 0;
     let votosDiogo = 0;
     let votosLuis = 0;
     let votosBranco = 0;
     let votosAnulados = 0;
+    let apuracaoVisivel = false;
 
     function adicionarNumero(numero) {
       numeroVotado += numero;
       atualizarVisor();
+      tocarSom('som-voto');
     }
 
     function confirmar() {
@@ -136,8 +174,12 @@
         numeroVotado = '';
         atualizarVisor();
         if (cargo === 'secretario') {
-          setTimeout(reiniciarVotos, 3000);
+          setTimeout(function () {
+            reiniciarVotos();
+            exibirResultado();
+          }, 3000);
         }
+        tocarSom('som-confirmar');
       }
     }
 
@@ -148,54 +190,58 @@
       numeroVotado = '';
       cargo = 'secretario';
       atualizarVisor();
+      tocarSom('som-voto');
     }
 
     function corrigir() {
       numeroVotado = '';
       atualizarVisor();
+      tocarSom('som-voto');
     }
 
     function atualizarVisor() {
-      let nomeCandidato = '';
+      document.getElementById('visor').textContent = numeroVotado;
+      exibirFotos();
+    }
 
+    function exibirFotos() {
+      const fotosContainer = document.getElementById('fotos-container');
+      let fotosHtml = '';
       if (cargo === 'secretario') {
-        if (numeroVotado === '13') {
-          nomeCandidato = 'Yann Lazaro';
-        } else if (numeroVotado === '22') {
-          nomeCandidato = 'Richarlyson Santos';
-        } else if (numeroVotado === '30') {
-          nomeCandidato = 'Diogo Pereira';
-        } else if (numeroVotado === '15') {
-          nomeCandidato = 'Luis Gabriel';
-        }
+        fotosHtml += '<img class="foto-candidato" src="yann.jpg" alt="Yann Lazaro">';
+        fotosHtml += '<img class="foto-candidato" src="richarlyson.jpg" alt="Richarlyson Santos">';
+        fotosHtml += '<img class="foto-candidato" src="diogo.jpg" alt="Diogo Pereira">';
+        fotosHtml += '<img class="foto-candidato" src="luis.jpg" alt="Luis Gabriel">';
       } else {
-        if (numeroVotado === '13') {
-          nomeCandidato = 'Yann Lazaro';
-        } else if (numeroVotado === '22') {
-          nomeCandidato = 'Richarlyson Santos';
-        } else if (numeroVotado === '30') {
-          nomeCandidato = 'Diogo Pereira';
-        } else if (numeroVotado === '15') {
-          nomeCandidato = 'Luis Gabriel';
-        }
+        fotosHtml += '<img class="foto-candidato" src="capitao.jpg" alt="Capitão">';
       }
-
-      visor.textContent = `${cargo.toUpperCase()}: ${numeroVotado} - ${nomeCandidato}`;
-
-      if (numeroVotado === 'FIM') {
-        exibirResultado();
-      }
+      fotosContainer.innerHTML = fotosHtml;
     }
 
     function exibirResultado() {
-      resultado.innerHTML = `
-        <p>Total de votos para Yann Lazaro: ${votosYann}</p>
-        <p>Total de votos para Richarlyson Santos: ${votosRicharlyson}</p>
-        <p>Total de votos para Diogo Pereira: ${votosDiogo}</p>
-        <p>Total de votos para Luis Gabriel: ${votosLuis}</p>
-        <p>Total de votos em branco: ${votosBranco}</p>
-        <p>Total de votos anulados: ${votosAnulados}</p>
-      `;
+      const apuracaoContainer = document.getElementById('apuracao-container');
+      if (!apuracaoVisivel) {
+        const apuracaoSecretario = document.getElementById('apuracao-secretario');
+        const apuracaoCapitao = document.getElementById('apuracao-capitao');
+        apuracaoSecretario.innerHTML = `
+          <h4>Secretário:</h4>
+          <p>Total de votos para Yann Lazaro: ${votosYann}</p>
+          <p>Total de votos para Richarlyson Santos: ${votosRicharlyson}</p>
+          <p>Total de votos para Diogo Pereira: ${votosDiogo}</p>
+          <p>Total de votos para Luis Gabriel: ${votosLuis}</p>
+          <p>Total de votos em branco: ${votosBranco}</p>
+          <p>Total de votos anulados: ${votosAnulados}</p>
+        `;
+        apuracaoCapitao.innerHTML = `
+          <h4>Capitão:</h4>
+          <p>Total de votos para Capitão: ${votosCapitao}</p>
+        `;
+        apuracaoContainer.style.display = 'block';
+        apuracaoVisivel = true;
+      } else {
+        apuracaoContainer.style.display = 'none';
+        apuracaoVisivel = false;
+      }
     }
 
     function reiniciarVotos() {
@@ -210,8 +256,10 @@
       atualizarVisor();
     }
 
-    function mostrarApuracao() {
-      exibirResultado();
+    function tocarSom(id) {
+      const audio = document.getElementById(id);
+      audio.currentTime = 0;
+      audio.play();
     }
   </script>
 </body>
