@@ -9,67 +9,72 @@
       align-items: center;
       height: 100vh;
       background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
     }
 
-    .container {
+    .urna {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
-      width: 400px;
-      padding: 20px;
+      justify-content: center;
+      width: 500px;
+      height: 300px;
       background-color: #fff;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      border: 2px solid #333;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
 
     .visor {
-      width: 200px;
-      height: 50px;
-      border: 1px solid black;
-      margin-bottom: 10px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      font-size: 20px;
-    }
-
-    .botoes-container {
-      display: flex;
-      flex-wrap: wrap;
       justify-content: center;
+      flex-direction: column;
+      width: 100px;
+      height: 100px;
+      background-color: #ddd;
+      border: 2px solid #333;
+      border-radius: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      margin-right: 20px;
     }
 
     .botao {
-      width: 60px;
-      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      background-color: #eee;
+      border: 1px solid #999;
+      border-radius: 5px;
       font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
       margin: 5px;
     }
 
-    .confirmar {
-      background-color: green;
-      color: white;
+    .botao.branco {
+      background-color: #fff;
     }
 
-    .branco {
-      background-color: gray;
-      color: white;
+    .botao.corrigir {
+      background-color: #ff6666;
+      color: #fff;
     }
 
-    .corrigir {
-      background-color: red;
-      color: white;
-    }
-
-    .resultado {
-      margin-top: 20px;
-      font-weight: bold;
-      text-align: center;
+    .botao.confirmar {
+      background-color: #66cc66;
+      color: #fff;
     }
 
     .fotos-container {
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       margin-top: 20px;
     }
 
@@ -77,8 +82,9 @@
       width: 100px;
       height: 100px;
       object-fit: cover;
-      border-radius: 50%;
-      margin: 10px;
+      border: 2px solid #333;
+      border-radius: 10px;
+      margin: 5px;
     }
 
     .apuracao-container {
@@ -86,165 +92,220 @@
       margin-top: 20px;
     }
 
-    .som-voto {
-      display: none;
+    .apuracao-container h3 {
+      text-align: center;
+    }
+
+    .apuracao-container h4 {
+      margin-top: 10px;
+    }
+
+    .apuracao-container p {
+      margin: 5px 0;
+    }
+
+    .mostrar-apuracao {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .fim-mensagem {
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="urna">
     <div class="visor" id="visor"></div>
-    <div class="botoes-container">
-      <button class="botao" onclick="adicionarNumero(1)">1</button>
-      <button class="botao" onclick="adicionarNumero(2)">2</button>
-      <button class="botao" onclick="adicionarNumero(3)">3</button>
+    <div>
+      <div>
+        <button class="botao" onclick="adicionarNumero(1)">1</button>
+        <button class="botao" onclick="adicionarNumero(2)">2</button>
+        <button class="botao" onclick="adicionarNumero(3)">3</button>
+      </div>
+      <div>
+        <button class="botao" onclick="adicionarNumero(4)">4</button>
+        <button class="botao" onclick="adicionarNumero(5)">5</button>
+        <button class="botao" onclick="adicionarNumero(6)">6</button>
+      </div>
+      <div>
+        <button class="botao" onclick="adicionarNumero(7)">7</button>
+        <button class="botao" onclick="adicionarNumero(8)">8</button>
+        <button class="botao" onclick="adicionarNumero(9)">9</button>
+      </div>
+      <div>
+        <button class="botao" onclick="adicionarNumero(0)">0</button>
+      </div>
+      <div>
+        <button class="botao branco" onclick="votarBranco()">Branco</button>
+        <button class="botao corrigir" onclick="corrigir()">Corrigir</button>
+        <button class="botao confirmar" onclick="confirmar()">Confirmar</button>
+      </div>
     </div>
-    <div class="botoes-container">
-      <button class="botao" onclick="adicionarNumero(4)">4</button>
-      <button class="botao" onclick="adicionarNumero(5)">5</button>
-      <button class="botao" onclick="adicionarNumero(6)">6</button>
-    </div>
-    <div class="botoes-container">
-      <button class="botao" onclick="adicionarNumero(7)">7</button>
-      <button class="botao" onclick="adicionarNumero(8)">8</button>
-      <button class="botao" onclick="adicionarNumero(9)">9</button>
-    </div>
-    <div class="botoes-container">
-      <button class="botao" onclick="adicionarNumero(0)">0</button>
-      <button class="botao branco" onclick="votarBranco()">Branco</button>
-      <button class="botao corrigir" onclick="corrigir()">Corrigir</button>
-    </div>
-    <button class="botao confirmar" onclick="confirmar()">Confirmar</button>
-    <div class="fotos-container" id="fotos-container"></div>
-    <div class="apuracao-container" id="apuracao-container">
-      <h3>Apuração</h3>
-      <div id="apuracao-secretario"></div>
-      <div id="apuracao-capitao"></div>
-    </div>
-    <audio id="som-voto" src="som-voto.mp3" preload="auto"></audio>
-    <audio id="som-confirmar" src="som-confirmar.mp3" preload="auto"></audio>
   </div>
+
+  <div class="fotos-container" id="fotos-container"></div>
+
+  <div class="apuracao-container" id="apuracao-container">
+    <h3>Apuração de Votos</h3>
+    <div id="apuracao-secretario">
+      <h4>Secretário:</h4>
+      <p>Total de votos para Yann Lazaro: <span id="votos-yann">0</span></p>
+      <p>Total de votos para Richarlyson Santos: <span id="votos-richarlyson">0</span></p>
+      <p>Total de votos para Diogo Pereira: <span id="votos-diogo">0</span></p>
+      <p>Total de votos para Luis Gabriel: <span id="votos-luis">0</span></p>
+      <p>Total de votos em branco: <span id="votos-branco">0</span></p>
+      <p>Total de votos anulados: <span id="votos-anulados">0</span></p>
+    </div>
+    <div id="apuracao-capitao">
+      <h4>Capitão:</h4>
+      <p>Total de votos para Capitão: <span id="votos-capitao">0</span></p>
+    </div>
+  </div>
+
+  <div class="mostrar-apuracao">
+    <button onclick="exibirResultado()">Mostrar Apuração</button>
+  </div>
+
+  <audio id="som-voto" src="som-voto.mp3"></audio>
+  <audio id="som-corrigir" src="som-corrigir.mp3"></audio>
+  <audio id="som-branco" src="som-branco.mp3"></audio>
+  <audio id="som-confirmar" src="som-confirmar.wav"></audio>
 
   <script>
     let cargo = 'secretario';
     let numeroVotado = '';
+    let apuracaoVisivel = false;
     let votosYann = 0;
     let votosRicharlyson = 0;
     let votosDiogo = 0;
     let votosLuis = 0;
     let votosBranco = 0;
     let votosAnulados = 0;
-    let apuracaoVisivel = false;
+    let votosCapitao = 0;
 
     function adicionarNumero(numero) {
-      numeroVotado += numero;
-      atualizarVisor();
-      tocarSom('som-voto');
-    }
-
-    function confirmar() {
-      if (numeroVotado !== '') {
+      if (numeroVotado.length < 2) {
+        numeroVotado += numero;
+        document.getElementById('visor').textContent = numeroVotado;
         if (cargo === 'secretario') {
-          if (numeroVotado === '13') {
-            votosYann++;
-          } else if (numeroVotado === '22') {
-            votosRicharlyson++;
-          } else if (numeroVotado === '30') {
-            votosDiogo++;
-          } else if (numeroVotado === '15') {
-            votosLuis++;
-          } else {
-            votosAnulados++;
-          }
-          cargo = 'capitao';
-        } else {
-          if (numeroVotado === '13') {
-            votosYann++;
-          } else if (numeroVotado === '22') {
-            votosRicharlyson++;
-          } else if (numeroVotado === '30') {
-            votosDiogo++;
-          } else if (numeroVotado === '15') {
-            votosLuis++;
-          } else {
-            votosAnulados++;
-          }
-          cargo = 'secretario';
+          exibirFotoSecretario(numeroVotado);
+        } else if (cargo === 'capitao') {
+          exibirFotoCapitao(numeroVotado);
         }
-        numeroVotado = '';
-        atualizarVisor();
-        if (cargo === 'secretario') {
-          setTimeout(function () {
-            reiniciarVotos();
-            exibirResultado();
-          }, 3000);
-        }
-        tocarSom('som-confirmar');
+        playSound('som-voto');
       }
     }
 
     function votarBranco() {
-      if (cargo === 'capitao') {
-        votosBranco++;
+      if (numeroVotado.length === 0) {
+        numeroVotado = 'BRANCO';
+        document.getElementById('visor').textContent = numeroVotado;
+        exibirFotoBranco();
+        playSound('som-branco');
       }
-      numeroVotado = '';
-      cargo = 'secretario';
-      atualizarVisor();
-      tocarSom('som-voto');
     }
 
     function corrigir() {
       numeroVotado = '';
-      atualizarVisor();
-      tocarSom('som-voto');
+      document.getElementById('visor').textContent = '';
+      limparFotos();
+      playSound('som-corrigir');
     }
 
-    function atualizarVisor() {
-      document.getElementById('visor').textContent = numeroVotado;
-      exibirFotos();
-    }
+    function confirmar() {
+      if (numeroVotado.length > 0) {
+        if (numeroVotado === 'BRANCO') {
+          votosBranco++;
+        } else if (cargo === 'secretario') {
+          switch (numeroVotado) {
+            case '13':
+              votosYann++;
+              break;
+            case '22':
+              votosRicharlyson++;
+              break;
+            case '30':
+              votosDiogo++;
+              break;
+            case '15':
+              votosLuis++;
+              break;
+            default:
+              votosAnulados++;
+          }
+        } else if (cargo === 'capitao') {
+          votosCapitao++;
+        }
 
-    function exibirFotos() {
-      const fotosContainer = document.getElementById('fotos-container');
-      let fotosHtml = '';
-      if (cargo === 'secretario') {
-        fotosHtml += '<img class="foto-candidato" src="yann.jpg" alt="Yann Lazaro">';
-        fotosHtml += '<img class="foto-candidato" src="richarlyson.jpg" alt="Richarlyson Santos">';
-        fotosHtml += '<img class="foto-candidato" src="diogo.jpg" alt="Diogo Pereira">';
-        fotosHtml += '<img class="foto-candidato" src="luis.jpg" alt="Luis Gabriel">';
-      } else {
-        fotosHtml += '<img class="foto-candidato" src="capitao.jpg" alt="Capitão">';
+        corrigir();
+
+        if (cargo === 'secretario') {
+          cargo = 'capitao';
+          document.getElementById('visor').textContent = 'CAPITÃO';
+        } else if (cargo === 'capitao') {
+          mostrarMensagemFim();
+          setTimeout(resetUrna, 3000);
+        }
+
+        playSound('som-confirmar');
       }
-      fotosContainer.innerHTML = fotosHtml;
+    }
+
+    function exibirFotoSecretario(numero) {
+      const fotosContainer = document.getElementById('fotos-container');
+      const foto = document.createElement('img');
+      foto.src = `foto-secretario-${numero}.jpg`;
+      foto.classList.add('foto-candidato');
+      fotosContainer.innerHTML = '';
+      fotosContainer.appendChild(foto);
+    }
+
+    function exibirFotoCapitao(numero) {
+      const fotosContainer = document.getElementById('fotos-container');
+      const foto = document.createElement('img');
+      foto.src = `foto-capitao-${numero}.jpg`;
+      foto.classList.add('foto-candidato');
+      fotosContainer.innerHTML = '';
+      fotosContainer.appendChild(foto);
+    }
+
+    function exibirFotoBranco() {
+      const fotosContainer = document.getElementById('fotos-container');
+      const foto = document.createElement('img');
+      foto.src = 'foto-branco.jpg';
+      foto.classList.add('foto-candidato');
+      fotosContainer.innerHTML = '';
+      fotosContainer.appendChild(foto);
+    }
+
+    function limparFotos() {
+      document.getElementById('fotos-container').innerHTML = '';
     }
 
     function exibirResultado() {
-      const apuracaoContainer = document.getElementById('apuracao-container');
       if (!apuracaoVisivel) {
-        const apuracaoSecretario = document.getElementById('apuracao-secretario');
-        const apuracaoCapitao = document.getElementById('apuracao-capitao');
-        apuracaoSecretario.innerHTML = `
-          <h4>Secretário:</h4>
-          <p>Total de votos para Yann Lazaro: ${votosYann}</p>
-          <p>Total de votos para Richarlyson Santos: ${votosRicharlyson}</p>
-          <p>Total de votos para Diogo Pereira: ${votosDiogo}</p>
-          <p>Total de votos para Luis Gabriel: ${votosLuis}</p>
-          <p>Total de votos em branco: ${votosBranco}</p>
-          <p>Total de votos anulados: ${votosAnulados}</p>
-        `;
-        apuracaoCapitao.innerHTML = `
-          <h4>Capitão:</h4>
-          <p>Total de votos para Capitão: ${votosCapitao}</p>
-        `;
-        apuracaoContainer.style.display = 'block';
+        document.getElementById('apuracao-container').style.display = 'block';
+        document.getElementById('mostrar-apuracao').style.display = 'none';
         apuracaoVisivel = true;
-      } else {
-        apuracaoContainer.style.display = 'none';
-        apuracaoVisivel = false;
       }
     }
 
-    function reiniciarVotos() {
+    function mostrarMensagemFim() {
+      document.getElementById('visor').textContent = 'FIM';
+      document.getElementsByClassName('fim-mensagem')[0].style.display = 'block';
+    }
+
+    function resetUrna() {
+      document.getElementById('visor').textContent = '';
+      document.getElementById('fotos-container').innerHTML = '';
+      document.getElementById('mostrar-apuracao').style.display = 'block';
+      document.getElementById('apuracao-container').style.display = 'none';
+      document.getElementsByClassName('fim-mensagem')[0].style.display = 'none';
+      apuracaoVisivel = false;
       cargo = 'secretario';
       numeroVotado = '';
       votosYann = 0;
@@ -253,10 +314,10 @@
       votosLuis = 0;
       votosBranco = 0;
       votosAnulados = 0;
-      atualizarVisor();
+      votosCapitao = 0;
     }
 
-    function tocarSom(id) {
+    function playSound(id) {
       const audio = document.getElementById(id);
       audio.currentTime = 0;
       audio.play();
