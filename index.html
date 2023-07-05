@@ -4,146 +4,95 @@
   <title>Urna Eletrônica</title>
   <style>
     body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f2f2f2;
       font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
     }
 
-    .urna {
+    .urna-container {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      width: 500px;
-      height: 300px;
-      background-color: #fff;
-      border: 2px solid #333;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      width: 300px;
+      margin-bottom: 20px;
     }
 
     .visor {
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      width: 100px;
-      height: 100px;
-      background-color: #ddd;
-      border: 2px solid #333;
-      border-radius: 10px;
-      font-size: 24px;
-      font-weight: bold;
-      text-align: center;
-      margin-right: 20px;
+      width: 100%;
+      height: 80px;
+      border: 1px solid black;
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .botoes-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      width: 100%;
     }
 
     .botao {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 50px;
-      height: 50px;
-      background-color: #eee;
-      border: 1px solid #999;
-      border-radius: 5px;
+      width: 30%;
+      height: 60px;
+      margin-bottom: 10px;
       font-size: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      margin: 5px;
-    }
-
-    .botao.branco {
-      background-color: #fff;
-    }
-
-    .botao.corrigir {
-      background-color: #ff6666;
-      color: #fff;
-    }
-
-    .botao.confirmar {
-      background-color: #66cc66;
-      color: #fff;
     }
 
     .fotos-container {
       display: flex;
-      align-items: center;
       justify-content: center;
-      margin-top: 20px;
+      align-items: center;
+      width: 100%;
+      height: 200px;
+      margin-bottom: 20px;
     }
 
     .foto-candidato {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border: 2px solid #333;
-      border-radius: 10px;
-      margin: 5px;
+      max-width: 100%;
+      max-height: 100%;
     }
 
     .apuracao-container {
       display: none;
-      margin-top: 20px;
     }
 
     .apuracao-container h3 {
-      text-align: center;
-    }
-
-    .apuracao-container h4 {
-      margin-top: 10px;
-    }
-
-    .apuracao-container p {
-      margin: 5px 0;
+      margin-top: 0;
     }
 
     .mostrar-apuracao {
       margin-top: 20px;
-      text-align: center;
     }
 
     .fim-mensagem {
-      font-size: 24px;
-      font-weight: bold;
-      text-align: center;
+      display: none;
       margin-top: 20px;
+      font-size: 24px;
     }
   </style>
 </head>
 <body>
-  <div class="urna">
+  <div class="urna-container">
     <div class="visor" id="visor"></div>
-    <div>
-      <div>
-        <button class="botao" onclick="adicionarNumero(1)">1</button>
-        <button class="botao" onclick="adicionarNumero(2)">2</button>
-        <button class="botao" onclick="adicionarNumero(3)">3</button>
-      </div>
-      <div>
-        <button class="botao" onclick="adicionarNumero(4)">4</button>
-        <button class="botao" onclick="adicionarNumero(5)">5</button>
-        <button class="botao" onclick="adicionarNumero(6)">6</button>
-      </div>
-      <div>
-        <button class="botao" onclick="adicionarNumero(7)">7</button>
-        <button class="botao" onclick="adicionarNumero(8)">8</button>
-        <button class="botao" onclick="adicionarNumero(9)">9</button>
-      </div>
-      <div>
-        <button class="botao" onclick="adicionarNumero(0)">0</button>
-      </div>
-      <div>
-        <button class="botao branco" onclick="votarBranco()">Branco</button>
-        <button class="botao corrigir" onclick="corrigir()">Corrigir</button>
-        <button class="botao confirmar" onclick="confirmar()">Confirmar</button>
-      </div>
+
+    <div class="botoes-container">
+      <button class="botao" onclick="adicionarNumero(1)">1</button>
+      <button class="botao" onclick="adicionarNumero(2)">2</button>
+      <button class="botao" onclick="adicionarNumero(3)">3</button>
+      <button class="botao" onclick="adicionarNumero(4)">4</button>
+      <button class="botao" onclick="adicionarNumero(5)">5</button>
+      <button class="botao" onclick="adicionarNumero(6)">6</button>
+      <button class="botao" onclick="adicionarNumero(7)">7</button>
+      <button class="botao" onclick="adicionarNumero(8)">8</button>
+      <button class="botao" onclick="adicionarNumero(9)">9</button>
+      <button class="botao" onclick="adicionarNumero(0)">0</button>
+      <button class="botao branco" onclick="votarBranco()">Branco</button>
+      <button class="botao corrigir" onclick="corrigir()">Corrigir</button>
+      <button class="botao confirmar" onclick="confirmar()">Confirmar</button>
     </div>
   </div>
 
@@ -151,33 +100,28 @@
 
   <div class="apuracao-container" id="apuracao-container">
     <h3>Apuração de Votos</h3>
-    <div id="apuracao-secretario">
-      <h4>Secretário:</h4>
-      <p>Total de votos para Yann Lazaro: <span id="votos-yann">0</span></p>
-      <p>Total de votos para Richarlyson Santos: <span id="votos-richarlyson">0</span></p>
-      <p>Total de votos para Diogo Pereira: <span id="votos-diogo">0</span></p>
-      <p>Total de votos para Luis Gabriel: <span id="votos-luis">0</span></p>
-      <p>Total de votos em branco: <span id="votos-branco">0</span></p>
-      <p>Total de votos anulados: <span id="votos-anulados">0</span></p>
-    </div>
-    <div id="apuracao-capitao">
-      <h4>Capitão:</h4>
-      <p>Total de votos para Capitão: <span id="votos-capitao">0</span></p>
-    </div>
+    <p>Secretário:</p>
+    <p>13 - Yann Lazaro: <span id="votos-yann">0</span> votos</p>
+    <p>22 - Richarlyson Santos: <span id="votos-richarlyson">0</span> votos</p>
+    <p>30 - Diogo Pereira: <span id="votos-diogo">0</span> votos</p>
+    <p>15 - Luis Gabriel: <span id="votos-luis">0</span> votos</p>
+    <p>Branco: <span id="votos-branco">0</span> votos</p>
+    <p>Anulados: <span id="votos-anulados">0</span> votos</p>
+    <p>Capitão: <span id="votos-capitao">0</span> votos</p>
   </div>
 
-  <div class="mostrar-apuracao">
-    <button onclick="exibirResultado()">Mostrar Apuração</button>
-  </div>
+  <button class="mostrar-apuracao" id="mostrar-apuracao" onclick="exibirResultado()">Mostrar Apuração</button>
+
+  <div class="fim-mensagem" id="fim-mensagem">FIM</div>
 
   <audio id="som-voto" src="som-voto.mp3"></audio>
   <audio id="som-corrigir" src="som-corrigir.mp3"></audio>
   <audio id="som-branco" src="som-branco.mp3"></audio>
-  <audio id="som-confirmar" src="confirma-urna.mp3"></audio>
+  <audio id="som-confirmar" src="som-confirmar.mp3"></audio>
 
   <script>
-    let cargo = 'secretario';
     let numeroVotado = '';
+    let cargo = 'secretario';
     let apuracaoVisivel = false;
     let votosYann = 0;
     let votosRicharlyson = 0;
@@ -238,73 +182,87 @@
               votosAnulados++;
           }
         } else if (cargo === 'capitao') {
+          switch (numeroVotado) {
+            case '13':
+              votosYann++;
+              break;
+            case '22':
+              votosRicharlyson++;
+              break;
+            case '30':
+              votosDiogo++;
+              break;
+            case '15':
+              votosLuis++;
+              break;
+            default:
+              votosAnulados++;
+          }
           votosCapitao++;
         }
 
         corrigir();
-
-        if (cargo === 'secretario') {
-          cargo = 'capitao';
-          document.getElementById('visor').textContent = 'CAPITÃO';
-        } else if (cargo === 'capitao') {
-          mostrarMensagemFim();
-          setTimeout(resetUrna, 3000);
-        }
-
         playSound('som-confirmar');
       }
     }
 
     function exibirFotoSecretario(numero) {
       const fotosContainer = document.getElementById('fotos-container');
-      const foto = document.createElement('img');
-      foto.src = `foto-secretario-${numero}.jpg`;
-      foto.classList.add('foto-candidato');
       fotosContainer.innerHTML = '';
+
+      const foto = document.createElement('img');
+      foto.className = 'foto-candidato';
+      foto.src = 'foto-secretario-' + numero + '.jpg';
       fotosContainer.appendChild(foto);
     }
 
     function exibirFotoCapitao(numero) {
       const fotosContainer = document.getElementById('fotos-container');
-      const foto = document.createElement('img');
-      foto.src = `foto-capitao-${numero}.jpg`;
-      foto.classList.add('foto-candidato');
       fotosContainer.innerHTML = '';
+
+      const foto = document.createElement('img');
+      foto.className = 'foto-candidato';
+      foto.src = 'foto-capitao-' + numero + '.jpg';
       fotosContainer.appendChild(foto);
     }
 
     function exibirFotoBranco() {
       const fotosContainer = document.getElementById('fotos-container');
-      const foto = document.createElement('img');
-      foto.src = 'foto-branco.jpg';
-      foto.classList.add('foto-candidato');
       fotosContainer.innerHTML = '';
+
+      const foto = document.createElement('img');
+      foto.className = 'foto-candidato';
+      foto.src = 'foto-branco.jpg';
       fotosContainer.appendChild(foto);
     }
 
     function limparFotos() {
-      document.getElementById('fotos-container').innerHTML = '';
+      const fotosContainer = document.getElementById('fotos-container');
+      fotosContainer.innerHTML = '';
     }
 
     function exibirResultado() {
+      const apuracaoContainer = document.getElementById('apuracao-container');
+      const mostrarApuracao = document.getElementById('mostrar-apuracao');
+
       if (!apuracaoVisivel) {
-        document.getElementById('apuracao-container').style.display = 'block';
-        document.getElementById('mostrar-apuracao').style.display = 'none';
+        apuracaoContainer.style.display = 'block';
+        mostrarApuracao.style.display = 'none';
         apuracaoVisivel = true;
       }
     }
 
-    function mostrarMensagemFim() {
-      document.getElementById('visor').textContent = 'FIM';
-      document.getElementsByClassName('fim-mensagem')[0].style.display = 'block';
+    function exibirMensagemFim() {
+      const fimMensagem = document.getElementById('fim-mensagem');
+      fimMensagem.style.display = 'block';
     }
 
     function resetUrna() {
       document.getElementById('visor').textContent = '';
-      document.getElementById('fotos-container').innerHTML = '';
+      limparFotos();
       document.getElementById('mostrar-apuracao').style.display = 'block';
       document.getElementById('apuracao-container').style.display = 'none';
-      document.getElementsByClassName('fim-mensagem')[0].style.display = 'none';
+      document.getElementById('fim-mensagem').style.display = 'none';
       apuracaoVisivel = false;
       cargo = 'secretario';
       numeroVotado = '';
@@ -322,6 +280,11 @@
       audio.currentTime = 0;
       audio.play();
     }
+
+    setTimeout(function() {
+      resetUrna();
+      exibirMensagemFim();
+    }, 3000);
   </script>
 </body>
 </html>
